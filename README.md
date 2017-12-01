@@ -20,7 +20,7 @@ prepare to install Torch7.
 ---------------------------------------------------------------------------------------------------
 ### Creating hdf5 format dataset
 
-Suppose you positive sample file, e.g. positive.txe and negative sample file, e.g. negative.txt with the plain text format, you can concat them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
+Suppose you have positive sample file, e.g. positive.txe and negative sample file, e.g. negative.txt with the plain text format, you can concat them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
 ```
 python /path/precreatedataset.py /path/positive.txt /path/negative.txt /path/seq_out.txt /path/label.txt
 ```
