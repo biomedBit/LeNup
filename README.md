@@ -85,7 +85,7 @@ In order to creating predictive dataset, you should, firstly, prepare a sequence
 You should use the following two commands to create the dataset to be classified.
 
 ```
-python precreatetestdataset.py /path/sequsece.txt  /path/seq_out.txt
+python /path/precreatetestdataset.py /path/sequsece.txt  /path/seq_out.txt
 ```
 
 ```
