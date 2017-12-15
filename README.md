@@ -11,16 +11,16 @@ LeNup is a tool to train a convolutional neural network in order to predict nucl
 LeNup runs in Ubuntu in our lab, a linux like system. 
 LeNup is based on Torch7. Therefore, Torch7 (http://torch.ch/) is needed for this package. LeNup Users also need to 
 
-install orther suport packages or tools in their computer, including Python, numpy, h5py, pandas, nn, optim, cudnn, 
+install other suport packages or tools in their computer, including Python, numpy, h5py, pandas, nn, optim, cudnn, 
 cutorch.
 
-If you want to train the model by GPU, CUDA and cudnn in also needed. CUDA and cudnn should be ready before you 
+If you want to train the model by GPU, CUDA and cudnn is also needed. CUDA and cudnn should be ready before you 
 prepare to install Torch7.
 
 ---------------------------------------------------------------------------------------------------
 ### Creating hdf5 format dataset
 
-Suppose you have positive sample file, e.g. positive.txe and negative sample file, e.g. negative.txt with the plain text format, you can concat them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
+Suppose you have positive sample file, e.g. positive.txe and negative sample file, e.g. negative.txt with the plain text format, you can contact them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
 ```
 python /path/precreatedataset.py /path/positive.txt /path/negative.txt /path/seq_out.txt /path/label.txt
 ```
@@ -44,9 +44,7 @@ There are also many options you can choose.
 ```
 -cuda
 ```
-Training by GPU is much faster than by CPU. If you decide to train the model by GPU, you should choose -cuda 
-
-option.
+Training by GPU is much faster than by CPU. If you decide to train the model by GPU, you should choose -cuda option.
 
 ```
 -cudnn
@@ -96,7 +94,7 @@ python /path/createtestdataset.py /path/seq_out.txt /path/dataset_out.h5
 ---------------------------------------------------------------------------------------------------
 ### LeNup Prediction
 
-Once LeNup training finishes, the model file, model_file.t7, is output. Users can use this file to predict nucleosome positioning of DNA fragments with length 147 bp including in an input file, e.g. data_file.h5. Assuming the sequence of DNA fragments in the input file has already tranformed to hdf5 format. out_file.txt saves the prediction results.
+Once LeNup training finished, the model file, model_file.t7, is output. Users can use this file to predict nucleosome positioning of DNA fragments with length 147 bp including in an input file, e.g. data_file.h5. Assuming the sequence of DNA fragments in the input file has already tranformed to hdf5 format. out_file.txt saves the prediction results.
 
 Therefore, the computer command for the prediction is as follows, 
 ```
