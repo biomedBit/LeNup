@@ -1,4 +1,4 @@
-#### Nucleusome positioning using convolutional neural networks
+#### LeNup: Learning Nucleosome positioning from DNA sequences with improved convolutional neural networks.
 
 LeNup is a tool to train a convolutional neural network in order to predict nucleosome positioning.
 
@@ -8,27 +8,25 @@ LeNup is a tool to train a convolutional neural network in order to predict nucl
 ### Dependency
 
 
-LeNup runs in Ubuntu in our lab, a linux like system. 
-LeNup is based on Torch7. Therefore, Torch7 (http://torch.ch/) is needed for this package. LeNup Users also need to 
+LeNup runs in Ubuntu in our lab, a linux like system. LeNup is based on Torch7. Therefore, Torch7 (http://torch.ch/) is supposed to be preinstalled for running this package. 
 
-install other suport packages or tools in their computer, including Python, numpy, h5py, pandas, nn, optim, cudnn, 
-cutorch.
+LeNup Users also need to install some support packages or tools in their computer, including Python, numpy, h5py, pandas, nn, optim, cudnn and cutorch.
 
-If you want to train the model by GPU, CUDA and cudnn is also needed. CUDA and cudnn should be ready before you 
-prepare to install Torch7.
+If you want to train LeNup by GPU, CUDA and cudnn must be installed. CUDA and cudnn should be ready before you prepare to install Torch7.
 
 ---------------------------------------------------------------------------------------------------
 ### Creating hdf5 format dataset
 
-Suppose you have positive sample file, e.g. positive.txe and negative sample file, e.g. negative.txt with the plain text format, you can contact them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
+Suppose that you have a positive sample file, e.g. positive.txt and a negative sample file, e.g. negative.txt with the plain text format, you can concat them to one sequence file, e.g. seq_out.txt, and generate the label file, e.g.label.txt by running command as follows,
 ```
-python /path/precreatedataset.py /path/positive.txt /path/negative.txt /path/seq_out.txt /path/label.txt
+python /path/PrecreateDataset.py /path/positive.txt /path/negative.txt /path/seq_out.txt /path/label.txt
 ```
 "path" in the command in the context is the absolute path of the files.
-After that, users need to transform the sequence file, e.g. seq_out.txt to hdf5 format, e.g.dataset_out.h5 by running the command as follows, 
+
+After that, users need to transform the sequence file, e.g. seq_out.txt to hdf5 format, e.g. dataset_out.h5 by running the command as follows,
 
 ```
-python /path/createdataset.py /path/seq_out.txt /path/label.txt /path/dataset_out.h5
+python /path/CreateDataset.py /path/seq_out.txt /path/label.txt /path/dataset_out.h5
 ```
 The default cross-validation is 20-fold. Users may change it in createdataset.py.
 
@@ -37,7 +35,7 @@ The default cross-validation is 20-fold. Users may change it in createdataset.py
 
 With the hdf5 file, you can use train.lua to train their model by the command:
 ```
-th /path/train.lua [option...] /path/dataset_out.h5
+th /path/Train.lua [option...] /path/dataset_out.h5
 ```
 
 There are also many options you can choose.
@@ -54,53 +52,47 @@ If you decide to train the model by GPU and use cudnn, you should choose -cudnn 
 ```
 -max_epochs num
 ```
-This option will set a max_epochs in training. When the maximum epoch is reached, the training process will stop.
+This option set the maximum of epoch to num. When the maximum is reached, the training process will stop.
 
 ```
 -stagnant_t num
 ```
-This option will give a limit in training that if the result does not promote, the training will stop.
+When we train a model, the training accuracy may not be improved in many epoches. Here users set how many epoches which they can tolerate in the training. Over this number, the calculation will stop.
 
 ```
--job [path for hyperparameters]
+-job /path/params.txt
 ```
-The hyperparameters such as learning rate, momentum  will be set through -job. The recommended hyperparameters are given in params.txt, and you can change the value of these hyperparameters in params.txt.
+The hyperparameters, such as learning rate and momentum, will be set through -job. The recommended hyperparameters are given in params.txt, and you can change the value of these hyperparameters in this file.
 
 ```
--save [the path for the best model output]
+-save /path/ABC(any string selected by users)
 ```
-The best model on the test dataset will be output to the pointed path. The default output path is "/home/user".
+The best model on the test dataset will be output to the pointed path. The default output path is "/home/user directory". The best model name is AAA_best.th.
 
 A command instance looks like,
 ```
-th /path/train.lua -cuda -max_epochs xxx -stagnant_t yyy -job /path/params.txt /path/dataset.h5
+th /path/Train.lua -cuda -max_epochs num1 -stagnant_t num2 -job /path/params.txt /path/dataset_out.h5.
 ```
 
 ---------------------------------------------------------------------------------------------------
-### Creating predictive dataset
+### Creating hdf5 Format Prediction Dataset
 
-In order to creating predictive dataset, you should, firstly, prepare a sequence file. Sequence file should include DNA sequence data.
-You should use the following two commands to create the dataset to be classified.
-
-```
-python /path/precreatetestdataset.py /path/sequsece.txt  /path/seq_out.txt
-```
+In order to create test or prediction datasets, We, firstly, prepare a sequence file with plain text format. There is one DNA sequence with a length of 147bp in one raw in the sequence file. After that, We transform the sequence file from plain text format to hdf5 format. The commands for creating the dataset as follows:
 
 ```
-python /path/createtestdataset.py /path/seq_out.txt /path/dataset_out.h5
+python /path/CreatePredictionDataset.py /path/sequsece.txt /path/dataset_out.h5
 ```
+
 
 
 ---------------------------------------------------------------------------------------------------
-### LeNup Prediction
+### LeNup Prediction  
 
-Once LeNup training finished, the model file, model_file.t7, is output. Users can use this file to predict nucleosome positioning of DNA fragments with length 147 bp including in an input file, e.g. data_file.h5. Assuming the sequence of DNA fragments in the input file has already tranformed to hdf5 format. out_file.txt saves the prediction results.
-
-Therefore, the computer command for the prediction is as follows, 
+Once LeNup training finishes, the model file, for instance, ABC_best.th, is the output. Users can use this file to predict nucleosome positioning of DNA fragments with 147bp in length included in an input file, e.g. dataset_out.h5. We use out_file.txt to save the prediction results. Therefore, the computer command for the prediction is as follows,
 ```
-th /path/predicting.lua [option...] /path/model_file.t7 /path/data_file.h5 /path/out_file.txt
+th /path/Predicting.lua [option...] /path/ABC_best.th /path/dataset_out.h5 /path/out_file.txt
 ```
-where, model_file.t7 is a LeNup model file; data_file.h5 is the input file, including sequences, which will be classified.
+Where, ABC_best.th is the LeNup model file; dataset_out.h5 is the input file including sequences to be classified.
 
 There are also many options you can choose.
 ```
@@ -116,16 +108,18 @@ Predicting by GPU is much faster than by CPU.
 ```
 -cudnn
 ```
-Cudnn is an effective option for the computational acceleration of a neural network. For instance, the predicting/test command for LeNup is as follows,
+Cudnn is an effective option for the computational acceleration of a neural network.
+
+
+For instance, the predicting/test command for LeNup is as follows,
+```
+th /path/Predicting.lua -batch 64 -cuda -cudnn /path/AAA_best.th /path/dataset_out.h5  /pat`h/out_file.txt
+```
+
+The output is the classification probability produced by the sigmoid function for each DNA sequence with a length of 147bp. Users may choose 0.5 as the threshold for the positive and negative classification, and execute the following command to get the final prediction.
 
 ```
-th /path/predicting.lua -batch 64 -cuda -cudnn /path/model_file.t7 /path/data_file.h5 /path/out_file.txt
-```
-
-The output is the classification probability produced by the sigmoid function for each DNA sequence with length 147-bp. User may choose 0.5 as the boundary of positive and negative classification, and execute the following command to get the final prediction.
-
-```
-python /path/finalcalssresult.py /path/out_file.txt /path/finalout_file.txt
+python /path/FinalClassResult.py /path/out_file.txt /path/finalout_file.txt
 ```
 
 ---------------------------------------------------------------------------------------------------
