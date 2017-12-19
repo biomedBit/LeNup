@@ -70,7 +70,7 @@ The best model on the test dataset will be output to the pointed path. The defau
 
 A command instance looks like,
 ```
-th /path/Train.lua -cuda -max_epochs num1 -stagnant_t num2 -save ABC -job /path/params.txt /path/dataset_out.h5
+th /path/Train.lua -cuda -max_epochs num1 -stagnant_t num2 -save /path/ABC -job /path/params.txt /path/dataset_out.h5
 ```
 
 ---------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ th /path/Train.lua -cuda -max_epochs num1 -stagnant_t num2 -save ABC -job /path/
 In order to create test or prediction datasets, We, firstly, prepare a sequence file with the plain text format. There is one DNA sequence with a length of 147bp in one raw in the sequence file. After that, We transform the sequence file from plain text format to hdf5 format. The commands for creating the dataset as follows:
 
 ```
-python /path/CreatePredictionDataset.py /path/sequence.txt  /path/dataset_out.h5
+python /path/CreatePredictionDataset.py /path/sequence.txt /path/dataset_out.h5
 ```
 
 
